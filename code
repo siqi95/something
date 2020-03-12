@@ -15,7 +15,8 @@
                     print('sharing_queue={}'.format(queue))
                     if queue:
                         share = queue.pop(0)
-                        用queue里面的东西干点事，太长了，就不放这了
+                        #keep reading for queue and send command
+                        
                          
                 except Exception as e:
 
@@ -29,19 +30,18 @@
                     for sublist in li:
                         x, y = float(sublist[1][0][1:-1].split(',')[0]), float(sublist[1][0][1:-1].split(',')[1])
                         something = (id, x, y, edge_ID, lane[3:])
-                        queue.append(something)   # 在queue 里加东西 
+                        queue.append(something)   # adding tuple to the queue
                         time.sleep(2)
                         print("A")
                         #print('sharing_tuple={}'.format(sharing_tuple))
 
                 print('queue is = {}'.format(queue))
             try:
-                #主要想做的就是一个thread 不停加东西，另一个thread 不停的读，但是他现在就停在了update_veh_info 这里
+                #Thread 0 reading and sending command 
+                #thread 1 keep adding tuple to list 
                 q = list()
-                #_thread.start_new_thread(inner_run, ("Thread-0",q, ))
                 _thread.start_new_thread(update_veh_info, (route_map[0], '0', "Thread-1", q, ))
                 _thread.start_new_thread(inner_run, ("Thread-0", q,))
-                #_thread.start_new_thread(update_veh_info, (route_map[1], '1', "Thread-2", ))
 
                 #_thread.start_new_thread(inner_run, ("Thread-0",))
 
